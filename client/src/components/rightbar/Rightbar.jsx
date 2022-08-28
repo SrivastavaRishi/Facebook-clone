@@ -1,11 +1,12 @@
 import "./rightbar.css";
-import { Users } from "../../dummyData";
+import { PopularPages } from "../../dummyData";
 import Online from "../online/Online";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Add, Remove } from "@material-ui/icons";
+const _ = require('lodash');
 
 export default function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -14,12 +15,15 @@ export default function Rightbar({ user }) {
   const [followed, setFollowed] = useState(
     currentUser.followings.includes(user?.id)
   );
+  let cnt = 0;
 
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendList = await axios.get("/users/friends/" + user._id);
-        setFriends(friendList.data);
+        if(_.get(user, '_id', '') !== ''){
+          const friendList = await axios.get("/users/friends/" + _.get(user, '_id', ''));
+          setFriends(friendList.data);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -45,6 +49,23 @@ export default function Rightbar({ user }) {
     }
   };
 
+  const handleConnectionRequest = async () => {
+    try {
+      //console.log(user._id, currentUser._id);
+      await axios.post('/conversations', {
+        "senderId": user._id,
+        "receiverId": currentUser._id
+    })
+    } catch (err) {
+    }
+  };
+
+  const handleLogout = () => {
+    console.log('Logout Clicked !!')
+    window.localStorage.removeItem("user");
+    window.location.reload();
+  }
+
   const HomeRightbar = () => {
     return (
       <>
@@ -55,12 +76,15 @@ export default function Rightbar({ user }) {
           </span>
         </div>
         <img className="rightbarAd" src="assets/ad.png" alt="" />
-        <h4 className="rightbarTitle">Online Friends</h4>
+        <h4 className="rightbarTitle">Popular Pages</h4>
         <ul className="rightbarFriendList">
-          {Users.map((u) => (
+          {PopularPages.map((u) => (
             <Online key={u.id} user={u} />
           ))}
         </ul>
+        <button className="loginRegisterButton" onClick={handleLogout}>
+          Logout
+        </button>
       </>
     );
   };
@@ -69,10 +93,15 @@ export default function Rightbar({ user }) {
     return (
       <>
         {user.username !== currentUser.username && (
+          <>
           <button className="rightbarFollowButton" onClick={handleClick}>
             {followed ? "Unfollow" : "Follow"}
             {followed ? <Remove /> : <Add />}
           </button>
+          <button className="rightbarFollowButton" onClick={handleConnectionRequest}>
+            Setup Connection
+          </button>
+          </>
         )}
         <h4 className="rightbarTitle">User information</h4>
         <div className="rightbarInfo">
@@ -99,6 +128,7 @@ export default function Rightbar({ user }) {
         <div className="rightbarFollowings">
           {friends.map((friend) => (
             <Link
+              key = {cnt++}
               to={"/profile/" + friend.username}
               style={{ textDecoration: "none" }}
             >

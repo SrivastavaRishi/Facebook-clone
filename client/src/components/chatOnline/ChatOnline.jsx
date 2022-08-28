@@ -6,6 +6,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   const [friends, setFriends] = useState([]);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  let cnt = 0;
 
   useEffect(() => {
     const getFriends = async () => {
@@ -34,7 +35,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   return (
     <div className="chatOnline">
       {onlineFriends.map((o) => (
-        <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
+        <div key = {cnt++} className="chatOnlineFriend" onClick={() => handleClick(o)}>
           <div className="chatOnlineImgContainer">
             <img
               className="chatOnlineImg"

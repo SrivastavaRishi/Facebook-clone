@@ -4,6 +4,7 @@ export default function Online({user}) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   return (
+    <a href = {user.link} style={{ color: 'inherit', textDecoration: 'inherit'}} className="PopularPages">
     <li className="rightbarFriend">
       <div className="rightbarProfileImgContainer">
         <img className="rightbarProfileImg" src={PF+user.profilePicture} alt="" />
@@ -11,5 +12,6 @@ export default function Online({user}) {
       </div>
       <span className="rightbarUsername">{user.username}</span>
     </li>
+    </a>
   );
 }
