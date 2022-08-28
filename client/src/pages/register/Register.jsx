@@ -24,18 +24,24 @@ export default function Register() {
         await axios.post("/auth/register", user);
         history.push("/login");
       } catch (err) {
-        console.log(err);
+        //console.log(err);
+        history.push("/login")
       }
     }
   };
+
+  const handleLogin = async(e) => {
+    e.preventDefault();
+    history.push("/login");
+  }
 
   return (
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">Lamasocial</h3>
+          <h3 className="loginLogo">Social</h3>
           <span className="loginDesc">
-            Connect with friends and the world around you on Lamasocial.
+            Connect with friends and the world around you on Social.
           </span>
         </div>
         <div className="loginRight">
@@ -71,8 +77,13 @@ export default function Register() {
             <button className="loginButton" type="submit">
               Sign Up
             </button>
-            <button className="loginRegisterButton">Log into Account</button>
+            {/* <Link to="/login" className="loginClass" style={{textDecoration: 'none'}}>
+              Log in
+            </Link> */}
+            {/* <button className="loginRegisterButton">Log into Account</button> */}
           </form>
+          <button className="loginRegisterButton" onClick={handleLogin}>Log into Account</button>
+
         </div>
       </div>
     </div>

@@ -137,3 +137,24 @@ export const Posts = [
     comment: 12,
   },
 ];
+
+export const PopularPages = [
+  {
+    id:1,
+    profilePicture: "person/rohit.jpeg",
+    username: "Rohit Sharma",
+    link : "profile/Rohit%20Sharma"
+  }, 
+  {
+    id:2,
+    profilePicture: "person/virat.jpeg",
+    username: "Virat Kohli",
+    link : "profile/Virat%20Kohli"
+  },
+  {
+    id:3,
+    profilePicture: "person/rock.jpg",
+    username: "The Rock",
+    link : "profile/The%20Rock"
+  }
+];

@@ -95,6 +95,10 @@
   cursor: pointer;
 }
 
+Link{
+  color : red;
+}
+
 @media screen and (max-width: 768px)  {
   .topbarLink{
     display: none;
